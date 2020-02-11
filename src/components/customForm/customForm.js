@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 const tempRadioButtons = [
   { name: "degreesRadioBtn", label: "C (degrees)", value: "degrees" },
@@ -10,14 +10,16 @@ const windRadioButtons = [
   { name: "windOff", label: "Off", value: "of" }
 ];
 
-const CustomForm = ({ title, setTitle, temp, setTempType, wind, setWind }) => {
+const CustomForm = ({
+  title,
+  setTitle,
+  tempType,
+  setTempType,
+  wind,
+  setWind
+}) => {
   return (
-    <div
-      className="col"
-      style={{ display: "flex" }}
-      value={title}
-      onChange={e => setTitle(e.target.value)}
-    >
+    <div className="col" style={{ display: "flex" }}>
       <form>
         {/* For typing title */}
         <div className="form-group">
@@ -28,6 +30,8 @@ const CustomForm = ({ title, setTitle, temp, setTempType, wind, setWind }) => {
             type="text"
             placeholder="Title of Widget"
             className="form-control"
+            value={title}
+            onChange={e => setTitle(e.target.value)}
           />
         </div>
 
@@ -42,9 +46,9 @@ const CustomForm = ({ title, setTitle, temp, setTempType, wind, setWind }) => {
                 name={btn.name}
                 id={btn.name}
                 value={btn.value}
-                checked={temp === btn.value}
+                checked={tempType === btn.value}
                 onChange={() =>
-                  btn.value !== temp ? setTempType(btn.value) : null
+                  btn.value !== tempType ? setTempType(btn.value) : null
                 }
               />
               <label key={btn.name + "label"} htmlFor={btn.name}>
