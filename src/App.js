@@ -7,20 +7,16 @@ import ErrorComp from "./components/ErrorComp/ErrorComp";
 import Loader from "./components/Loader/Loader";
 
 const App = () => {
-  const [weather, setWeather] = useState({
-    // place: "Chatswood",
-    // temp: 59,
-    // wind: 28,
-    // windDegrees: 107,
-    // imgIcon: "10d",
-    // description: "Light Rain"
-  });
+  //all hooks managing state of the application
+  const [weather, setWeather] = useState({});
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [title, setTitle] = useState("");
   const [tempType, setTempType] = useState("degrees");
   const [wind, setWind] = useState("on");
 
+  // for causing side effects
+  //fetches geolocation coords and related weather data
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
       async result => {
@@ -29,41 +25,40 @@ const App = () => {
       },
       error => {
         setIsLoading(false);
-        console.log("error", error);
         setError("Error while getting your location");
       }
     );
-
-    const fetchWeather = async ({ latitude, longitude }) => {
-      const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=dd62ec40039697031010d5e893f5581e&units=metric`;
-      try {
-        let { data } = await axios.get(apiUrl);
-        setIsLoading(false);
-        return {
-          place: data.name,
-          temp: parseInt(data.main.temp),
-          wind: data.wind.speed,
-          windDegrees: data.wind.deg,
-          imgIcon: data.weather[0].icon,
-          description: data.weather[0].description
-        };
-      } catch (error) {
-        setIsLoading(false);
-        console.log("err in fetching data", error);
-        setError("Error in getting weather data");
-      }
-    };
   }, []);
 
-  const loadingComp = isLoading && !error && <Loader />;
-  const errorComp = !isLoading && error && <ErrorComp error={error} />;
-  const MainComp = !isLoading && !error && (
-    <div className="row">
-      <div className="col-12 pb-4">
-        <p className="display-4 text-center text-muted">Weather Widget</p>
-      </div>
+  //API call to fetch weather data for a given set of coords
+  const fetchWeather = async ({ latitude, longitude }) => {
+    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=dd62ec40039697031010d5e893f5581e&units=metric`;
+    try {
+      let { data } = await axios.get(apiUrl);
+      setIsLoading(false);
+      return {
+        place: data.name,
+        temp: parseInt(data.main.temp),
+        wind: data.wind.speed,
+        windDegrees: data.wind.deg,
+        imgIcon: data.weather[0].icon,
+        description: data.weather[0].description
+      };
+    } catch (error) {
+      setIsLoading(false);
+      setError("Error in getting weather data");
+    }
+  };
 
-      <div className="col-12 col-md-10 col-lg-7 mx-auto d-flex justify-content-between align-items-center">
+  // The Main Widget component consisting of:
+  const Widget = (
+    <div className="row">
+      <header className="col-12 pb-4">
+        <p className="display-4 text-center text-muted">Weather Widget</p>
+      </header>
+
+      {/*  left hand side - custom form */}
+      <section className="col-12 col-md-10 col-lg-7 mx-auto d-flex justify-content-between align-items-center">
         <CustomForm
           title={title}
           setTitle={setTitle}
@@ -72,7 +67,11 @@ const App = () => {
           wind={wind}
           setWind={setWind}
         />
+
+        {/*  a small vertical divider in the middle */}
         <div style={{ height: "200px", border: "0.5px solid #bebebe" }}></div>
+
+        {/*  right hand side - weather display component */}
         {Object.keys(weather).length && (
           <WeatherDisplay
             weather={weather}
@@ -81,9 +80,14 @@ const App = () => {
             windStatus={wind}
           />
         )}
-      </div>
+      </section>
     </div>
   );
+
+  // Some conditions to render either Initial loader, error component or the main component
+  const loadingComp = isLoading && !error && <Loader />;
+  const errorComp = !isLoading && error && <ErrorComp error={error} />;
+  const MainComp = !isLoading && !error && Widget;
 
   return (
     <div className="App">

@@ -27,7 +27,7 @@ const CustomForm = ({
             Title
           </label>
           <input
-            name="widgetTitle"
+            name="widget title"
             id="widgetTitle"
             type="text"
             placeholder="Title of Widget"
@@ -39,59 +39,70 @@ const CustomForm = ({
 
         {/* For choosing temperature */}
 
-        <div className="temp-container">
-          <p className="h6 pt-2">Temperature</p>
+        <fieldset className="temp-container">
+          <legend className="h6 pt-2">Temperature</legend>
           <div className="d-flex justify-content-between">
             {tempRadioButtons.map(btn => (
               <div key={btn.name}>
-                <input
-                  key={btn.name}
-                  className="form-radio-input"
-                  type="radio"
-                  name={btn.name}
-                  id={btn.name}
-                  value={btn.value}
-                  checked={tempType === btn.value}
-                  onChange={() =>
-                    btn.value !== tempType ? setTempType(btn.value) : null
-                  }
-                />
-                <label key={btn.name + "label"} htmlFor={btn.name}>
+                <label
+                  key={btn.name + "label"}
+                  htmlFor={btn.name}
+                  aria-label={btn.value}
+                >
+                  <input
+                    key={btn.name}
+                    className="form-radio-input"
+                    type="radio"
+                    name={btn.name}
+                    id={btn.name}
+                    value={btn.value}
+                    checked={tempType === btn.value}
+                    onChange={() =>
+                      btn.value !== tempType ? setTempType(btn.value) : null
+                    }
+                  />
                   <span
                     className="pl-2 h6"
                     dangerouslySetInnerHTML={{ __html: btn.label }}
+                    aria-label={btn.value}
                   ></span>
                 </label>
               </div>
             ))}
           </div>
-        </div>
+        </fieldset>
 
         {/* For choosing wind */}
-        <div className="wind-container pt-2">
-          <p className="h6">Wind</p>
+        <fieldset className="wind-container pt-2">
+          <legend className="h6">Wind</legend>
           <div className="d-flex justify-content-between">
             {windRadioButtons.map(btn => (
               <div key={btn.name}>
-                <input
-                  key={btn.name}
-                  className="form-radio-input"
-                  type="radio"
-                  name={btn.name}
-                  id={btn.name}
-                  value={btn.value}
-                  checked={wind === btn.value}
-                  onChange={() =>
-                    btn.value !== wind ? setWind(btn.value) : null
-                  }
-                />
-                <label key={btn.name + "label"} htmlFor={btn.name}>
-                  <span className="pl-2 h6">{btn.label}</span>
+                <label
+                  key={btn.name + "label"}
+                  htmlFor={btn.name}
+                  aria-label={btn.value}
+                >
+                  <input
+                    key={btn.name}
+                    className="form-radio-input"
+                    type="radio"
+                    name={btn.name}
+                    id={btn.name}
+                    value={btn.value}
+                    checked={wind === btn.value}
+                    onChange={() =>
+                      btn.value !== wind ? setWind(btn.value) : null
+                    }
+                  />
+                  <span className="pl-2 h6" aria-label={btn.value}>
+                    {btn.label}
+                  </span>
                 </label>
               </div>
             ))}
           </div>
-        </div>
+        </fieldset>
       </form>
     </div>
   );
