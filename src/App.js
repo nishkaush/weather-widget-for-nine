@@ -11,6 +11,7 @@ const App = () => {
     place: "Chatswood",
     temp: 59,
     wind: 28,
+    windDegrees: 107,
     imgIcon: "10d",
     description: "Light Rain"
   });
@@ -42,6 +43,7 @@ const App = () => {
   //         place: data.sys.name,
   //         temp: data.main.temp,
   //         wind: data.wind.speed,
+  //          windDegrees:data.wind.deg,
   //         imgIcon: data.weather[0].icon,
   //         description: data.weather[0].description
   //       };
@@ -57,7 +59,11 @@ const App = () => {
   const errorComp = !isLoading && error && <ErrorComp error={error} />;
   const MainComp = !isLoading && !error && (
     <div className="row">
-      <div className="col-12 col-md-10 col-lg-8 mx-auto d-flex justify-content-between">
+      <div className="col-12 pb-4">
+        <p className="display-4 text-center text-muted">Weather Widget</p>
+      </div>
+
+      <div className="col-12 col-md-10 col-lg-7 mx-auto d-flex justify-content-between align-items-center">
         <CustomForm
           title={title}
           setTitle={setTitle}
@@ -67,7 +73,7 @@ const App = () => {
           setWind={setWind}
         />
 
-        <div style={{ height: "300px", border: "6px solid green" }}></div>
+        <div style={{ height: "200px", border: "0.5px solid #bebebe" }}></div>
         {Object.keys(weather).length && (
           <WeatherDisplay
             weather={weather}
