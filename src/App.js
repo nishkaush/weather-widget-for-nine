@@ -81,6 +81,10 @@ const App = () => {
           />
         )}
       </section>
+
+      <footer className="col-12 mt-5 pt-4">
+        <p className="text-muted">Made for folks at Channel 9 with ❤️ </p>
+      </footer>
     </div>
   );
 

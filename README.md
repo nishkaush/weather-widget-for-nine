@@ -24,6 +24,23 @@ It correctly bundles React in production mode and optimizes the build for the be
 The build is minified and the filenames include the hashes.<br />
 App is ready to be deployed!
 
+### `Solution Description`
+
+- React was used for this project
+- Create react app was used to setup the project
+- App.js is the root component which controls the state for 3 major components:
+  - Error Component (discussed below)
+  - Loader Component
+  - Widget (Main Component containing Form and weather data display)
+- Upon initial load, App.js component fetches geolocation coords and subsequently the weather data
+- Passes the data to the relevant components
+- Changes in any of the child components are relayed back to the parent App component for changes in DOM
+- React hooks were used extensively
+- Only 2 kinds of errors have been catered for:
+  - User denies access to his/her location upon loading of the app
+  - Api call to open weather fails due to internet connectivity
+- In either error case, user will see a list of steps outlining the possible errors and any related fixes
+
 ### `Considerations and Assumptions`
 
 - Time spent on this project was 4 hours
@@ -34,6 +51,7 @@ App is ready to be deployed!
 - The icon image clarity is dependent on icons supplied by open weather API itself
 - This project works on all screens since its fully responsive
 - Due to lack of time, the behaviour of this app wasn't checked on Internet Explorer
+- Could have used environment variables to protect the API key but decided to skip it due to lack of time
 - Unit testing is always needed but due to lack of time, it was skipped for this project (Jest and Enzyme are the best tools)
 
 ### `Challenges`
